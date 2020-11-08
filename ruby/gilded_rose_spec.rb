@@ -72,6 +72,46 @@ describe GildedRose do
       end
     end
 
+    context 'for Backstage passes, with sell_in 11 and quality 40' do
+      let(:items) { [Item.new("Backstage passes", 11, 40)] }
+      it "increases in Quality by 1" do
+        subject
+        expect(items[0].name).to eq "Backstage passes"
+        expect(items[0].sell_in).to eq 10
+        expect(items[0].quality).to eq 41
+      end
+    end
+
+    context 'for Backstage passes, with sell_in 10 and quality 40' do
+      let(:items) { [Item.new("Backstage passes", 10, 40)] }
+      it "increases in Quality by 2" do
+        subject
+        expect(items[0].name).to eq "Backstage passes"
+        expect(items[0].sell_in).to eq 9
+        expect(items[0].quality).to eq 42
+      end
+    end
+
+    context 'for Backstage passes, with sell_in 5 and quality 40' do
+      let(:items) { [Item.new("Backstage passes", 5, 40)] }
+      it "increases in Quality by 3" do
+        subject
+        expect(items[0].name).to eq "Backstage passes"
+        expect(items[0].sell_in).to eq 4
+        expect(items[0].quality).to eq 43
+      end
+    end
+
+    context 'for Backstage passes, with sell_in 0 and quality 40' do
+      let(:items) { [Item.new("Backstage passes", 0, 40)] }
+      it "quality will change to 0" do
+        subject
+        expect(items[0].name).to eq "Backstage passes"
+        expect(items[0].sell_in).to eq -1
+        expect(items[0].quality).to eq 0
+      end
+    end
+
   end
 
 end
