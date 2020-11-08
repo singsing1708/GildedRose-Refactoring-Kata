@@ -9,6 +9,10 @@ class GildedRose
       case item.name
       when "Aged Brie"
         update_aged_brie_product(item)
+      when "Backstage passes"
+          update_backstage_passes_product(item)
+      when "Sulfuras"
+          update_sulfuras_product(item)
       else
         update_normal_product(item)
       end
@@ -17,9 +21,21 @@ class GildedRose
 
   private
 
+  def update_sulfuras_product(item)
+    item.quality = 80
+  end
+
   def update_aged_brie_product(item)
     item.quality += 1
     item.quality = [item.quality, 50].min
+    item.sell_in -= 1
+  end
+
+  def update_backstage_passes_product(item)
+    item.quality += 1 * ((item.sell_in>10)? 1 : ((item.sell_in>5)? 2 : 3))
+    item.quality = [item.quality, 50].min
+    item.quality = 0 if item.sell_in == 0
+    item.quality = [item.quality, 0].max
     item.sell_in -= 1
   end
 
@@ -82,9 +98,11 @@ class GildedRose
 end
 
 class Item
-  attr_accessor :name, :sell_in, :quality
+  attr_accessor :sell_in, :quality
+  attr_reader :name
 
   def initialize(name, sell_in, quality)
+    raise StandardError, 'Sulfuras quality must always be 80' if name == "Sulfuras" && quality != 80
     @name = name
     @sell_in = sell_in
     @quality = quality
