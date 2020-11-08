@@ -56,6 +56,22 @@ describe GildedRose do
       end
     end
 
+    context 'for Sulfuras' do
+      it "never has to be sold or decreases in Quality" do
+        items = [Item.new("Sulfuras", 0, 10)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].name).to eq "Sulfuras"
+        expect(items[0].sell_in).to eq 0
+        expect(items[0].quality).to eq 10
+
+        items = [Item.new("Sulfuras", 40, 20)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].name).to eq "Sulfuras"
+        expect(items[0].sell_in).to eq 40
+        expect(items[0].quality).to eq 20
+      end
+    end
+
   end
 
 end
