@@ -46,6 +46,16 @@ describe GildedRose do
       end
     end
 
+    context 'for products, quality never more than 50' do
+      it "increases in Quality the older it gets" do
+        items = [Item.new("Aged Brie", 10, 50)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].name).to eq "Aged Brie"
+        expect(items[0].sell_in).to eq 9
+        expect(items[0].quality).to eq 50
+      end
+    end
+
   end
 
 end
