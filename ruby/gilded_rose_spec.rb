@@ -11,7 +11,10 @@ describe GildedRose do
 
     context 'for items ' do
       it "raise error if quality is negative" do
-        expect {Item.new("foo", 10, -1)}.to raise_error('Quality cannot be negative')
+        expect {Item.new("foo", 10, -1)}.to raise_error('Quality cannot be negative or larger then 50')
+      end
+      it "raise error if quality > 50" do
+        expect {Item.new("foo", 10, 51)}.to raise_error('Quality cannot be negative or larger then 50')
       end
     end
   end

@@ -105,7 +105,7 @@ class Item
 
   def initialize(name, sell_in, quality)
     raise StandardError, 'Sulfuras quality must always be 80' if name == "Sulfuras" && quality != 80
-    raise StandardError, 'Quality cannot be negative' if quality < 0
+    raise StandardError, 'Quality cannot be negative or larger then 50' if name != "Sulfuras" && (quality < 0 || quality > 50)
     @name = name
     @sell_in = sell_in
     @quality = quality
