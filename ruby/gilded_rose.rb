@@ -12,7 +12,7 @@ class GildedRose
       when "Backstage passes"
         update_backstage_passes_product(item)
       when "Sulfuras"
-        update_sulfuras_product(item)
+        ;
       when "Conjured"
         update_conjured_product(item)
       else
@@ -27,10 +27,6 @@ class GildedRose
     item.quality -= 2
     item.quality = [item.quality, 0].max
     item.sell_in -= 1
-  end
-
-  def update_sulfuras_product(item)
-    item.quality = 80
   end
 
   def update_aged_brie_product(item)
