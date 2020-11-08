@@ -25,29 +25,27 @@ class GildedRose
 
   def update_conjured_product(item)
     item.quality -= 2
-    item.quality = [item.quality, 0].max
-    item.sell_in -= 1
+    item.quality_should_between_0_and_50
+    item.decrease_sell_in
   end
 
   def update_aged_brie_product(item)
     item.quality += 1
-    item.quality = [item.quality, 50].min
-    item.sell_in -= 1
+    item.quality_should_between_0_and_50
+    item.decrease_sell_in
   end
 
   def update_backstage_passes_product(item)
     item.quality += 1 * ((item.sell_in>10)? 1 : ((item.sell_in>5)? 2 : 3))
-    item.quality = [item.quality, 50].min
     item.quality = 0 if item.sell_in == 0
-    item.quality = [item.quality, 0].max
-    item.sell_in -= 1
+    item.quality_should_between_0_and_50
+    item.decrease_sell_in
   end
 
   def update_normal_product(item)
     item.quality -= 1 * ((item.sell_in<=0)? 2 : 1)
-    item.quality = [item.quality, 0].max
-    item.quality = [item.quality, 50].min
-    item.sell_in -= 1
+    item.quality_should_between_0_and_50
+    item.decrease_sell_in
   end
 
 
@@ -111,6 +109,15 @@ class Item
     @name = name
     @sell_in = sell_in
     @quality = quality
+  end
+
+  def quality_should_between_0_and_50
+    @quality = [@quality, 0].max
+    @quality = [@quality, 50].min
+  end
+
+  def decrease_sell_in
+    @sell_in -= 1
   end
 
   def to_s()
