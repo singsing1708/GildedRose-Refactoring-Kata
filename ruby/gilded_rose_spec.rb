@@ -46,7 +46,7 @@ describe GildedRose do
       end
     end
 
-    context 'for products, quality never more than 50' do
+    context 'for Aged Brie products, quality never more than 50' do
       it "increases in Quality the older it gets" do
         items = [Item.new("Aged Brie", 10, 50)]
         GildedRose.new(items).update_quality()
@@ -111,6 +111,16 @@ describe GildedRose do
         expect(items[0].quality).to eq 0
       end
     end
+
+    # context 'for Conjured, with sell_in 10 and quality 40' do
+    #   let(:items) { [Item.new("Conjured", 10, 40)] }
+    #   it "will decrease the quality by 2" do
+    #     subject
+    #     expect(items[0].name).to eq "Conjured"
+    #     expect(items[0].sell_in).to eq 9
+    #     expect(items[0].quality).to eq 38
+    #   end
+    # end
 
   end
 
