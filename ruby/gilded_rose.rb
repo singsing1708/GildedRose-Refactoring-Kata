@@ -10,9 +10,11 @@ class GildedRose
       when "Aged Brie"
         update_aged_brie_product(item)
       when "Backstage passes"
-          update_backstage_passes_product(item)
+        update_backstage_passes_product(item)
       when "Sulfuras"
-          update_sulfuras_product(item)
+        update_sulfuras_product(item)
+      when "Conjured"
+        update_conjured_product(item)
       else
         update_normal_product(item)
       end
@@ -20,6 +22,12 @@ class GildedRose
   end
 
   private
+
+  def update_conjured_product(item)
+    item.quality -= 2
+    item.quality = [item.quality, 0].max
+    item.sell_in -= 1
+  end
 
   def update_sulfuras_product(item)
     item.quality = 80
@@ -103,6 +111,7 @@ class Item
 
   def initialize(name, sell_in, quality)
     raise StandardError, 'Sulfuras quality must always be 80' if name == "Sulfuras" && quality != 80
+    raise StandardError, 'Quality cannot be negative' if quality < 0
     @name = name
     @sell_in = sell_in
     @quality = quality

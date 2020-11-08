@@ -3,10 +3,15 @@ require File.join(File.dirname(__FILE__), 'gilded_rose')
 describe GildedRose do
 
   describe "#Item.new" do
-    subject { Item.new("Sulfuras", 10, 40) }
     context 'for Sulfuras' do
       it "raise error if quality is not 80" do
-        expect {subject}.to raise_error('Sulfuras quality must always be 80')
+        expect {Item.new("Sulfuras", 10, 40)}.to raise_error('Sulfuras quality must always be 80')
+      end
+    end
+
+    context 'for items ' do
+      it "raise error if quality is negative" do
+        expect {Item.new("foo", 10, -1)}.to raise_error('Quality cannot be negative')
       end
     end
   end
@@ -39,6 +44,25 @@ describe GildedRose do
         subject
         expect(items[0].sell_in).to eq -1
         expect(items[0].quality).to eq 8
+      end
+    end
+
+    context 'when sell in decrease' do
+      it "the quality never be 0" do
+        items = [Item.new("Backstage passes", 0, 0)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].sell_in).to eq -1
+        expect(items[0].quality).to eq 0
+
+        items = [Item.new("Conjured", 0, 0)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].sell_in).to eq -1
+        expect(items[0].quality).to eq 0
+
+        items = [Item.new("foo", 0, 0)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].sell_in).to eq -1
+        expect(items[0].quality).to eq 0
       end
     end
 
@@ -125,15 +149,15 @@ describe GildedRose do
       end
     end
 
-    # context 'for Conjured, with sell_in 10 and quality 40' do
-    #   let(:items) { [Item.new("Conjured", 10, 40)] }
-    #   it "will decrease the quality by 2" do
-    #     subject
-    #     expect(items[0].name).to eq "Conjured"
-    #     expect(items[0].sell_in).to eq 9
-    #     expect(items[0].quality).to eq 38
-    #   end
-    # end
+    context 'for Conjured, with sell_in 10 and quality 40' do
+      let(:items) { [Item.new("Conjured", 10, 40)] }
+      it "will decrease the quality by 2" do
+        subject
+        expect(items[0].name).to eq "Conjured"
+        expect(items[0].sell_in).to eq 9
+        expect(items[0].quality).to eq 38
+      end
+    end
 
   end
 
