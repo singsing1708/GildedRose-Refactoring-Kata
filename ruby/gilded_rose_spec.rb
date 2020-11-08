@@ -22,4 +22,19 @@ describe GildedRose do
     end
   end
 
+  describe "#update_quality" do
+    it "Once the sell by date has passed, Quality degrades twice as fast" do
+      items = [Item.new("foo", 0, 10)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].name).to eq "foo"
+      expect(items[0].sell_in).to eq -1
+      expect(items[0].quality).to eq 8
+
+      GildedRose.new(items).update_quality()
+      expect(items[0].name).to eq "foo"
+      expect(items[0].sell_in).to eq -2
+      expect(items[0].quality).to eq 6
+    end
+  end
+
 end
